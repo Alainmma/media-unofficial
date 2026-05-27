@@ -35,7 +35,10 @@ MYOPTIONS="
     mp2
     mp3
     ogg
-    opus [[ description = [ Support for opus files ] ]]
+    opus [[
+        description = [ Support for opus files ]
+        requires = [ ogg ]
+    ]]
     vorbis
 "
 
