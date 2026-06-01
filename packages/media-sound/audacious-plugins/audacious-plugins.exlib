@@ -79,7 +79,7 @@ DEPENDENCIES="
         sys-devel/gettext[>=0.18.1]
         virtual/pkg-config
     build+run:
-        dev-libs/glib:2[>=2.32]
+        dev-libs/glib:2[>=2.36]
         dev-libs/libxml2:2.0
         media-sound/audacious[~${PV}][gtk?][qt6?]
         sys-libs/zlib
@@ -99,7 +99,7 @@ DEPENDENCIES="
             dev-libs/libglvnd
             x11-libs/cairo
             x11-libs/gdk-pixbuf:2.0
-            x11-libs/gtk+:3[>=3.18]
+            x11-libs/gtk+:3[>=3.24]
             x11-libs/libX11
             x11-libs/pango
         )
@@ -155,18 +155,40 @@ audacious-plugins_src_configure() {
     local meson_args=(
         -Dadplug=false
         -Dampache=false
+        -Dasx=true
+        -Dasx3=true
+        -Dbackground-music=true
+        -Dbitcrusher=true
+        -Dcompressor=true
         -Dconsole=true
         -Dcoreaudio=false
+        -Dcrossfade=true
+        -Dcrystalizer=true
+        -Decho=true
         -Dfilewriter=true
+        -Dgio=true
         -Dgtk2=false
+        -Dladspa=true
         -Dlirc=false
-        -Dmac-media-keys=false
+        -Dm3u=true
+        -Dmac-now-playing=false
+        -Dmetronome=true
+        -Dmixer=true
         -Dopenmpt=false
+        -Dpls=true
+        -Dpsf=true
         -Dqt5=false
         -Dsid=false
+        -Dsilence-removal=true
         -Dsndio=false
         -Dsongchange=false
         -Dsoxr=false
+        -Dstereo=true
+        -Dtonegen=true
+        -Dvoice-removal=true
+        -Dvtx=true
+        -Dxsf=true
+        -Dxspf=true
         $(meson_switch aac)
         $(meson_switch alsa)
         $(meson_switch bs2b)
@@ -179,6 +201,7 @@ audacious-plugins_src_configure() {
         $(meson_switch flac filewriter-flac)
         $(meson_switch fluidsynth amidiplug)
         $(meson_switch gtk)
+        $(meson_switch gtk gtkui)
         $(meson_switch jack)
         $(meson_switch mms)
         $(meson_switch modplug)
@@ -192,6 +215,8 @@ audacious-plugins_src_configure() {
         $(meson_switch pipewire)
         $(meson_switch pulseaudio pulse)
         $(meson_switch qt6 qt)
+        $(meson_switch qt6 qtui)
+        $(meson_switch qt6 songinfo)
         $(meson_switch qt6 streamtuner)
         $(meson_switch qtaudio)
         $(meson_switch resample)
@@ -206,14 +231,36 @@ audacious-plugins_src_configure() {
 
     if option gtk || option qt6; then
         meson_args+=(
+            -Dalbumart=true
+            -Dblurscope=true
+            -Ddelete-files=true
+            -Dfilebrowser=true
             -Dgl-spectrum=true
             -Dhotkey=true
+            -Dlyrics=true
+            -Dplayback-history=true
+            -Dplaylist-manager=true
+            -Dsearchtool=true
+            -Dskins=true
+            -Dspectrum-analyzer=true
+            -Dstatusicon=true
             -Dvumeter=true
         )
     else
         meson_args+=(
+            -Dalbumart=false
+            -Dblurscope=false
+            -Ddelete-files=false
+            -Dfilebrowser=false
             -Dgl-spectrum=false
             -Dhotkey=false
+            -Dlyrics=false
+            -Dplayback-history=false
+            -Dplaylist-manager=false
+            -Dsearchtool=false
+            -Dskins=false
+            -Dspectrum-analyzer=false
+            -Dstatusicon=false
             -Dvumeter=false
         )
     fi
