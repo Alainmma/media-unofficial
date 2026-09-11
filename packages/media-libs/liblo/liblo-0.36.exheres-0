@@ -3,7 +3,8 @@
 #   Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-require sourceforge [ suffix=tar.gz ] autotools [ supported_automake=[ 1.16 1.15 ] supported_autoconf=[ 2.5 ] ]
+require sourceforge [ suffix=tar.gz ]
+require autotools [ supported_autoconf=[ 2.7 ] supported_automake=[ 1.19 ] ]
 
 SUMMARY="Lightweight OSC (Open Sound Control) implementation"
 DESCRIPTION="
@@ -16,9 +17,6 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="doc"
 
-# tests require network
-RESTRICT="test"
-
 DEPENDENCIES="
     build:
         doc? ( app-doc/doxygen )
@@ -26,17 +24,26 @@ DEPENDENCIES="
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --enable-ipv6
+    --enable-poll
     --enable-threads
+    --enable-tools
+    --disable-examples
+    --disable-network-tests
 )
 
-src_prepare()
-{
-    edo sed -e 's/-Werror//' -i configure.ac
-    autotools_src_prepare
-}
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    doc
+)
 
-src_configure() {
-    option doc || export ac_cv_prog_HAVE_DOXYGEN="false"
-    default
+DEFAULT_SRC_CONFIGURE_TESTS=(
+    '--enable-tests --disable-tests'
+)
+
+src_prepare() {
+    edo sed \
+        -e 's/-Werror//' \
+        -i configure.ac
+
+    autotools_src_prepare
 }
 
